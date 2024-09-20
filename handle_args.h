@@ -1,10 +1,6 @@
 #ifndef HANDEL_ARGS_HEADER
 #define HANDEL_ARGS_HEADER
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -23,9 +23,17 @@ char *concat_with_realloc(char *str1, char *str2, int add_space)
  */
 void handle_args(int argc, char const **argv, void (*handle_action)(char *, char *))
 {
+#ifdef DEBUG
+	printf("Starting to handle args (%d args)\n", argc);
+#endif
 	// skip the name of the program
 	argv++;
 	argc--;
+
+	// stats
+	int nbr_long_stats = 0;
+	int nbr_short_stats = 0;
+	int nbr_default_stats = 0;
 
 	for (int i = 0; i < argc; i++)
 	{
@@ -33,6 +41,7 @@ void handle_args(int argc, char const **argv, void (*handle_action)(char *, char
 		{
 			if (strlen(argv[i]) >= 2 && argv[i][1] == '-') // version long --example 123
 			{
+				nbr_long_stats++; // stats
 				char *action_long = malloc((strlen(argv[i]) - 1) * sizeof(char));
 				strcpy(action_long, argv[i] + 2 /*skip '--'*/);
 
@@ -56,6 +65,7 @@ void handle_args(int argc, char const **argv, void (*handle_action)(char *, char
 				strcpy(actions, argv[i] + 1 /* skip the '-' */);
 				for (int j = 0; j < nbr_actions; j++)
 				{
+					nbr_short_stats++; // stats
 					char action[2] = {actions[j], '\0'};
 					handle_action(action, NULL);
 				}
@@ -65,11 +75,15 @@ void handle_args(int argc, char const **argv, void (*handle_action)(char *, char
 		}
 		else // default handle
 		{
-
+			nbr_default_stats++; // stats
 			char *temp = malloc(sizeof(char) * (strlen(argv[i]) + 1));
 			strcpy(temp, argv[i]);
 			handle_action(NULL, temp);
 			free(temp);
 		}
 	}
+
+#ifdef DEBUG
+	printf("End to handle args (%d long params, %d short params, %d default params)\n", nbr_long_stats, nbr_short_stats, nbr_default_stats);
+#endif
 }
