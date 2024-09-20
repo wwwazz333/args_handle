@@ -23,12 +23,14 @@ char *concat_with_realloc(char *str1, char *str2, int add_space)
  */
 void handle_args(int argc, char const **argv, void (*handle_action)(char *, char *))
 {
-#ifdef DEBUG
-	printf("Starting to handle args (%d args)\n", argc);
-#endif
+
 	// skip the name of the program
 	argv++;
 	argc--;
+
+#ifdef DEBUG
+	printf("Starting to handle args (%d args)\n", argc);
+#endif
 
 	// stats
 	int nbr_long_stats = 0;
