@@ -8,7 +8,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-DDEBUG",
-                "*.c",
+                "lib/*.c",
+                "main.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

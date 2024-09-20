@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "handle_args.h"
+#include "lib/handle_args.h"
 
 void handle_action(char *action, char *params)
 {
