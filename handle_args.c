@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include "handle_args.h"
 
 char *concat_with_realloc(char *str1, char *str2, int add_space)
 {
@@ -24,7 +21,7 @@ char *concat_with_realloc(char *str1, char *str2, int add_space)
  * @param handle_action function that will handle the action (action, params) params is NULL if there is no params (ex: -e) and action is NULL if it's a default action
  * @brief Handle the arguments passed to the program
  */
-void handle_args(int argc, char **argv, void (*handle_action)(char *, char *))
+void handle_args(int argc, char const **argv, void (*handle_action)(char *, char *))
 {
 	// skip the name of the program
 	argv++;
@@ -45,7 +42,10 @@ void handle_args(int argc, char **argv, void (*handle_action)(char *, char *))
 				}
 				else
 				{
-					handle_action(action_long, argv[i + 1]);
+					char *param = malloc(sizeof(char) * (strlen(argv[i + 1]) + 1));
+					strcpy(param, argv[i + 1]);
+					handle_action(action_long, param);
+					free(param);
 					i++;
 				}
 			}
