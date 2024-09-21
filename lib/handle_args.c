@@ -59,6 +59,8 @@ void handle_args(int argc, char const **argv, void (*handle_action)(char *, char
 					free(param);
 					i++;
 				}
+
+				free(action_long);
 			}
 			else // versionc courte -e (each action is one letter)
 			{
