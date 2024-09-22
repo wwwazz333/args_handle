@@ -114,6 +114,9 @@ void _retrive_handle_action(char *action, char *param)
 
 void retrive_args(int argc, char const **argv, void (*handle_action)(int, char **, char **))
 {
+	// stats
+	int count_of_actions_in_double_stats = 0;
+
 	handle_args(argc, argv, _retrive_handle_action);
 
 	// post treatment of action to avoid multiple call of the same action
@@ -126,6 +129,7 @@ void retrive_args(int argc, char const **argv, void (*handle_action)(int, char *
 				// if the action is the same
 				if (actions_retrived[j] != NULL && strcmp(actions_retrived[i], actions_retrived[j]) == 0)
 				{
+					count_of_actions_in_double_stats++; // stats
 					// free the action and the param
 					free(actions_retrived[j]);
 					free(params_retrived[j]);
@@ -144,6 +148,10 @@ void retrive_args(int argc, char const **argv, void (*handle_action)(int, char *
 			}
 		}
 	}
+
+#ifdef DEBUG
+	printf("End to retrive args (%d actions in double)\n", count_of_actions_in_double_stats);
+#endif
 
 	// call the handle_action function
 	handle_action(count_of_actions, actions_retrived, params_retrived);

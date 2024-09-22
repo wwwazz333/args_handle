@@ -23,6 +23,8 @@ int main(int argc, char const *argv[])
 	retrive_args((sizeof(s_argv) / sizeof(char *)), s_argv, retrive_handle_action);
 #else
 	handle_args(argc, argv, handle_action);
+	printf("##########################\n");
+	retrive_args(argc, argv, retrive_handle_action);
 #endif
 	return 0;
 }
