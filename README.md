@@ -2,16 +2,18 @@
 
 ## Usage
 
-`handle_args` is a function that will hanlde your args passed to the program in order.
+### handle_args
+
+`handle_args` is a function that will handle your args passed to the program in order as it go along.
 
 Used like this `handle(argc, argv, function_that_handle_an_arg);`
 
-Your `function_that_handle_an_arg` must look like this.
+Your `function_that_handle_an_arg` should look like this.
 
-```C
+```c
 void function_that_handle_an_arg(char* str_action, char* str_params){
-	printf("Action : %s\n", str_action);
-	printf("Params : %s\n\n", str_params);
+    printf("Action : %s\n", str_action);
+    printf("Params : %s\n\n", str_params);
 }
 ```
 
@@ -37,6 +39,34 @@ Action : g
 Params : (Null)
 ```
 
+### retrive_args
+
+`retrive_args` is a function that will handle args all in once. It will avoid multiple same args (keep the first one only).
+
+Used like this `retrive_args(argc, argv, retrive_handle_action);`
+
+Your `retrive_handle_action` should look like this.
+
+```c
+void retrive_handle_action(int count_of_actions, char **actions, char **params)
+{
+	for (int i = 0; i < count_of_actions; i++)
+	{
+		printf("%s : %s\n", actions[i], params[i]);
+	}
+}
+```
+
+Example of output for `./main -Dad --test file123 ddefault`
+
+```bash
+D : (null)
+a : (null)
+d : (null)
+test : file123
+(null) : ddefault
+```
+
 ## Installation
 
 ### With code source
@@ -52,6 +82,7 @@ clone this repo and open it
 run `sudo make install`
 
 use it in other of your project
+
 ```c
 #include <handle_args.h>
 ```
