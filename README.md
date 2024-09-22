@@ -2,7 +2,7 @@
 
 ## Usage
 
-`handle_args` is a function that will hanlde your args passed to the program in order.
+`handle_args` is a function that will handle your args passed to the program in order.
 
 Used like this `handle(argc, argv, function_that_handle_an_arg);`
 
@@ -10,8 +10,8 @@ Your `function_that_handle_an_arg` must look like this.
 
 ```C
 void function_that_handle_an_arg(char* str_action, char* str_params){
-	printf("Action : %s\n", str_action);
-	printf("Params : %s\n\n", str_params);
+    printf("Action : %s\n", str_action);
+    printf("Params : %s\n\n", str_params);
 }
 ```
 
@@ -52,6 +52,7 @@ clone this repo and open it
 run `sudo make install`
 
 use it in other of your project
+
 ```c
 #include <handle_args.h>
 ```

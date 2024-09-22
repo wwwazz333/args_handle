@@ -4,14 +4,10 @@ char *concat_with_realloc(char *str1, char *str2, int add_space)
 {
 	assert(add_space == 1 || add_space == 0);
 
-	char *temp = malloc((strlen(str1) + 1) * sizeof(char));
-	strcpy(temp, str1);
 	str1 = realloc(str1, (strlen(str1) + strlen(str2) + add_space + 1) * sizeof(char));
-	strcpy(str1, temp);
 	if (add_space)
 		strcat(str1, " ");
 	strcat(str1, str2);
-	free(temp);
 	return str1;
 }
 
