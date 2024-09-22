@@ -88,6 +88,15 @@ int count_of_actions = 0;
 
 void _retrive_handle_action(char *action, char *param)
 {
+	if (actions_retrived == NULL)
+	{
+		actions_retrived = malloc(sizeof(char *));
+	}
+	if (params_retrived == NULL)
+	{
+		params_retrived = malloc(sizeof(char *));
+	}
+
 	actions_retrived = realloc(actions_retrived, (count_of_actions + 1) * sizeof(char *));
 	params_retrived = realloc(params_retrived, (count_of_actions + 1) * sizeof(char *));
 	if (action != NULL)

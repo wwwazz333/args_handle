@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -Ilib
+CFLAGS = -Wall -Wextra -Ilib -fPIC
 LIB_SRC = lib/handle_args.c
 OBJ_DIR = obj
 MAIN_SRC = main.c
