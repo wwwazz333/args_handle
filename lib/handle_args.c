@@ -11,12 +11,6 @@ char *concat_with_realloc(char *str1, char *str2, int add_space)
 	return str1;
 }
 
-/**
- * @param argc number of arguments
- * @param argv arguments
- * @param handle_action function that will handle the action (action, params) params is NULL if there is no params (ex: -e) and action is NULL if it's a default action
- * @brief Handle the arguments passed to the program
- */
 void handle_args(int argc, char const **argv, void (*handle_action)(char *, char *))
 {
 
@@ -86,4 +80,90 @@ void handle_args(int argc, char const **argv, void (*handle_action)(char *, char
 #ifdef DEBUG
 	printf("End to handle args (%d long params, %d short params, %d default params)\n", nbr_long_stats, nbr_short_stats, nbr_default_stats);
 #endif
+}
+
+char **actions_retrived = NULL;
+char **params_retrived = NULL;
+int count_of_actions = 0;
+
+void _retrive_handle_action(char *action, char *param)
+{
+	actions_retrived = realloc(actions_retrived, (count_of_actions + 1) * sizeof(char *));
+	params_retrived = realloc(params_retrived, (count_of_actions + 1) * sizeof(char *));
+	if (action != NULL)
+	{
+		actions_retrived[count_of_actions] = malloc(sizeof(char) * (strlen(action) + 1));
+		strcpy(actions_retrived[count_of_actions], action);
+	}
+	else
+	{
+		actions_retrived[count_of_actions] = NULL;
+	}
+
+	if (param != NULL)
+	{
+		params_retrived[count_of_actions] = malloc(sizeof(char) * (strlen(param) + 1));
+		strcpy(params_retrived[count_of_actions], param);
+	}
+	else
+	{
+		params_retrived[count_of_actions] = NULL;
+	}
+	count_of_actions++;
+}
+
+void retrive_args(int argc, char const **argv, void (*handle_action)(int, char **, char **))
+{
+	handle_args(argc, argv, _retrive_handle_action);
+
+	// post treatment of action to avoid multiple call of the same action
+	for (int i = 0; i < count_of_actions; i++)
+	{
+		if (actions_retrived[i] != NULL)
+		{
+			for (int j = i + 1; j < count_of_actions; j++)
+			{
+				// if the action is the same
+				if (actions_retrived[j] != NULL && strcmp(actions_retrived[i], actions_retrived[j]) == 0)
+				{
+					// free the action and the param
+					free(actions_retrived[j]);
+					free(params_retrived[j]);
+
+					// move the last element to the current position
+					actions_retrived[j] = actions_retrived[count_of_actions - 1];
+					params_retrived[j] = params_retrived[count_of_actions - 1];
+
+					// set the last element to NULL
+					actions_retrived[count_of_actions - 1] = NULL;
+					params_retrived[count_of_actions - 1] = NULL;
+
+					// decrement the count of actions
+					count_of_actions--;
+				}
+			}
+		}
+	}
+
+	// call the handle_action function
+	handle_action(count_of_actions, actions_retrived, params_retrived);
+
+	// free all memory
+	for (int i = 0; i < count_of_actions; i++)
+	{
+		if (actions_retrived[i] != NULL)
+		{
+			free(actions_retrived[i]);
+		}
+		if (params_retrived[i] != NULL)
+		{
+			free(params_retrived[i]);
+		}
+	}
+	free(actions_retrived);
+	actions_retrived = NULL;
+	free(params_retrived);
+	params_retrived = NULL;
+
+	count_of_actions = 0;
 }
