@@ -1,6 +1,7 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -Ilib -fPIC
+CFLAGS_DEBUG = -Wall -Wextra -Ilib -fPIC -g -DDEBUG
 LIB_SRC = lib/handle_args.c
 OBJ_DIR = obj
 MAIN_SRC = main.c
@@ -23,6 +24,9 @@ $(LIB_OBJ): $(LIB_SRC)
 
 $(MAIN_OBJ): $(LIB_OBJ) $(MAIN_SRC)
 	$(CC) $(CFLAGS) $^ -o $@
+
+debug: $(LIB_SRC) $(MAIN_SRC)
+	$(CC) $(CFLAGS_DEBUG) $^ -o $(MAIN_OBJ)
 
 # Create static library
 static: $(LIB_OBJ)
